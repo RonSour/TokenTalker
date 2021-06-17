@@ -2,15 +2,12 @@ package org.jobtests;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.List;
 
 public class DBHandler extends ChannelInboundHandlerAdapter {
-    static private DatabaseUtility dbu = DatabaseUtility.getInstance();
+    static private final DatabaseUtility dbu = DatabaseUtility.getInstance();
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof Message) {

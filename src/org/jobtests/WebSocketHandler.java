@@ -3,8 +3,6 @@ package org.jobtests;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
@@ -16,15 +14,10 @@ import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.security.Key;
 
 public class WebSocketHandler extends ChannelInboundHandlerAdapter {
@@ -76,7 +69,7 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter {
                         Message message = new Message(name, text);
                         //ctx.fire - send msg to another handlers in this channel
                         ctx.fireChannelRead(message);
-                        //recpts.write to future and await future - send msg to another channels
+                        //recipients.write to future and await future - send msg to another channels
                         ChannelGroupFuture future = recipients.writeAndFlush(new TextWebSocketFrame(/*"to " + recipients.size() + " ch, " + */message.getName() + " : " + message.getText()));
                         future.awaitUninterruptibly();
                         System.out.println("message sent to upstreams: " + message);
