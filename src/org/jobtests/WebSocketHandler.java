@@ -74,8 +74,10 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter {
                         }
                     } else {
                         Message message = new Message(name, text);
-                        //ctx.fireChannelRead(new TextWebSocketFrame(message.getName() + " : " + message.getText()));
-                        ChannelGroupFuture future = recipients.writeAndFlush(new TextWebSocketFrame("to " + recipients.size() + " ch, " + message.getName() + " : " + message.getText()));
+                        //ctx.fire - send msg to another handlers in this channel
+                        ctx.fireChannelRead(message);
+                        //recpts.write to future and await future - send msg to another channels
+                        ChannelGroupFuture future = recipients.writeAndFlush(new TextWebSocketFrame(/*"to " + recipients.size() + " ch, " + */message.getName() + " : " + message.getText()));
                         future.awaitUninterruptibly();
                         System.out.println("message sent to upstreams: " + message);
                     }

@@ -42,8 +42,8 @@ public class DatabaseUtility {
         Connection connection;
         try {
             connection = getDataSource().getConnection();
-            PreparedStatement pstmt = connection.prepareStatement("SELECT ts, name, text FROM message order by ts desc limit " + count.toString());
-
+            PreparedStatement pstmt = connection.prepareStatement("SELECT ts, name, text FROM message order by ts desc limit ?");
+            pstmt.setInt(1, count);
             ResultSet resultSet = pstmt.executeQuery();
             while (resultSet.next()) {
                 Message m = new Message(resultSet.getString("name"), resultSet.getString("text"));
