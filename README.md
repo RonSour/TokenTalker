@@ -1,6 +1,22 @@
 # TokenTalker
 wstalker with netty and websockets
 В БД создать пару sql табличек со связями (foreign keys)
+CREATE TABLE `user` (
+`name` varchar(255) NOT NULL,
+`email` varchar(255) NOT NULL,
+`hash` varchar(255) NOT NULL,
+PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `message` (
+`ts` bigint NOT NULL,
+`name` varchar(255) NOT NULL,
+`text` varchar(255) NOT NULL,
+PRIMARY KEY (`ts`),
+KEY `name` (`name`),
+CONSTRAINT `message_ibfk_1` FOREIGN KEY (`name`) REFERENCES `user` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 http:9000, POST
 Сделать HTTP POST эндпоинт который получает данные в json вида :
